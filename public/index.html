@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <title>היסטוריית מנגה</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 1rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+        text-align: right;
+      }
+      th {
+        background-color: #f3f4f6;
+      }
+      tr:hover {
+        background-color: #f9fafb;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>מנגות אחרונות</h3>
+    <table>
+      <thead>
+        <tr><th>שם</th><th>פרק</th></tr>
+      </thead>
+      <tbody id="manga-table-body"></tbody>
+    </table>
+
+    <script type="module" src="/src/popup.js"></script>
+  </body>
+</html>

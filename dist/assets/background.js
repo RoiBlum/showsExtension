@@ -1,0 +1,1 @@
+import{a as n,s as d,d as c}from"./firebase.js";chrome.runtime.onMessage.addListener((o,i,p)=>{if(o.type==="save-manga"){const{title:e,chapter:t,mediaType:a}=o.payload,s=n(c,"mangaHistory",e);d(s,{title:e,chapter:t,type:a,updatedAt:new Date().toISOString()}).then(()=>{console.log(`Saved: ${e} – ${t}`)}).catch(r=>{console.error("Error saving to Firestore:",r)})}});

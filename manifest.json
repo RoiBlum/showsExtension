@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Manga Tracker",
+  "version": "1.0",
+  "description": "Track manga chapters you're reading.",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/content.js"]
+    }
+  ]
+}
