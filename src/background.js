@@ -1,23 +1,37 @@
-import { db } from './firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { db } from "./firebase.js";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "save-manga") {
-    const { title, chapter, mediaType } = message.payload;
+  (async () => {
+    if (message.type === "get-manga-history") {
+      try {
+        const snapshot = await getDocs(collection(db, "mangaHistory"));
+        const history = snapshot.docs.map((doc) => doc.data());
+        sendResponse({ success: true, history });
+      } catch (err) {
+        console.error("Failed to read from DB:", err);
+        sendResponse({ success: false, error: err.message });
+      }
+      return;
+    }
 
-    const docRef = doc(db, "mangaHistory", title);
+    if (message.type === "save-manga") {
+      try {
+        const { title, chapter, mediaType } = message.payload;
+        const docRef = doc(db, "mangaHistory", title);
+        await setDoc(docRef, {
+          title,
+          chapter,
+          type: mediaType,
+          updatedAt: new Date().toISOString(),
+        });
+        console.log(`Saved: ${title} – ${chapter}`);
+      } catch (err) {
+        console.error("Failed to save to DB:", err);
+      }
+    }
+  })();
 
-    setDoc(docRef, {
-      title,
-      chapter,
-      type: mediaType,
-      updatedAt: new Date().toISOString(),
-    })
-    .then(() => {
-      console.log(`Saved: ${title} – ${chapter}`);
-    })
-    .catch((error) => {
-      console.error("Error saving to Firestore:", error);
-    });
-  }
+  // ✅ MUST be returned outside the async function
+  return true;
 });

@@ -1,16 +1,25 @@
-import { db } from './firebase';
-import { collection, getDocs } from "firebase/firestore";
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.runtime.sendMessage({ type: "get-manga-history" }, (response) => {
+    const tbody = document.getElementById("manga-table-body");
+    tbody.innerHTML = "";
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const tbody = document.getElementById("manga-table-body");
-  tbody.innerHTML = "";
+    if (!response || !response.success) {
+      tbody.innerHTML = "<tr><td colspan='2'>Error loading history</td></tr>";
+      return;
+    }
 
-  const snapshot = await getDocs(collection(db, "mangaHistory"));
-  snapshot.forEach((doc) => {
-    const data = doc.data();
+    for (const item of response.history) {
+      const row = document.createElement("tr");
 
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${data.title}</td><td>${data.chapter}</td>`;
-    tbody.appendChild(row);
+      const titleCell = document.createElement("td");
+      titleCell.textContent = item.title;
+      row.appendChild(titleCell);
+
+      const chapterCell = document.createElement("td");
+      chapterCell.textContent = item.chapter;
+      row.appendChild(chapterCell);
+
+      tbody.appendChild(row);
+    }
   });
 });

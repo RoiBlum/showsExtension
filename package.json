@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"vite build && copy manifest.json dist/",
+    "build": "vite build && copy manifest.json dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^11.9.1"
+    "firebase": "^11.9.1",
+    "vite-plugin-static-copy": "^3.0.2"
   },
   "devDependencies": {
     "vite": "^6.3.5"
