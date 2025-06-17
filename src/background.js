@@ -20,11 +20,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const { title, chapter, mediaType } = message.payload;
         const docRef = doc(db, "mangaHistory", title);
         await setDoc(docRef, {
-          title,
-          chapter,
-          type: mediaType,
-          updatedAt: new Date().toISOString(),
-        });
+            title,
+            chapter,
+            type: mediaType,
+            updatedAt: new Date().toISOString(),
+            url: message.payload.url, // ✅ store the URL
+            });
         console.log(`Saved: ${title} – ${chapter}`);
       } catch (err) {
         console.error("Failed to save to DB:", err);
